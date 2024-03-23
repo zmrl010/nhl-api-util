@@ -1,0 +1,192 @@
+openapi: 3.0.0
+info:
+  title: NHL API
+  description: API documentation for NHL data
+  version: 1.0.0
+servers:
+  - url: https://api-web.nhle.com/v1/
+paths:
+  /player/{player}/game-log/{season}/{game-type}:
+    get:
+      summary: Get Game Log
+      description: Retrieve the game log for a specific player, season, and game type.
+      parameters:
+        - name: player
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Player ID
+        - name: season
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Season in YYYYYYYY format
+        - name: game-type
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Game type (2 for regular season, 3 for playoffs)
+      responses:
+        '200':
+          description: Success
+  /player/{player}/landing:
+    get:
+      summary: Get Specific Player Info
+      description: Retrieve information for a specific player.
+      parameters:
+        - name: player
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Player ID
+      responses:
+        '200':
+          description: Success
+  /player/{player}/game-log/now:
+    get:
+      summary: Get Game Log As of Now
+      description: Retrieve the game log for a specific player as of the current moment.
+      parameters:
+        - name: player
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Player ID
+          example: 8478402
+      responses:
+        '200':
+          description: Success
+  /skater-stats-leaders/current:
+    get:
+      summary: Get Current Skater Stats Leaders
+      description: Retrieve current skater stats leaders.
+      parameters:
+        - name: categories
+          in: query
+          schema:
+            type: string
+          description: Optional
+          example: goals
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Optional (a limit of -1 will return all results)
+          example: 5
+      responses:
+        '200':
+          description: Success
+  /skater-stats-leaders/{season}/{game-type}:
+    get:
+      summary: Get Skater Stats Leaders for a Specific Season and Game Type
+      description: Retrieve skater stats leaders for a specific season and game type.
+      parameters:
+        - name: season
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Season in YYYYYYYY format
+          example: 20222023
+        - name: game-type
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Game type (2 for regular season, 3 for playoffs)
+          example: 2
+        - name: categories
+          in: query
+          schema:
+            type: string
+          description: Optional
+          example: assists
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Optional (a limit of -1 will return all results)
+          example: 3
+      responses:
+        '200':
+          description: Success
+  /goalie-stats-leaders/current:
+    get:
+      summary: Get Current Goalie Stats Leaders
+      description: Retrieve current goalie stats leaders.
+      parameters:
+        - name: categories
+          in: query
+          schema:
+            type: string
+          description: Optional
+          example: wins
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Optional (a limit of -1 will return all results)
+          example: 5
+      responses:
+        '200':
+          description: Success
+  /goalie-stats-leaders/{season}/{game-type}:
+    get:
+      summary: Get Goalie Stats Leaders by Season
+      description: Retrieve goalie stats leaders for a specific season and game type.
+      parameters:
+        - name: season
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Season in YYYYYYYY format
+          example: 20232024
+        - name: game-type
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Game type (2 for regular season, 3 for playoffs)
+          example: 2
+        - name: categories
+          in: query
+          schema:
+            type: string
+          description: Optional
+          example: wins
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Optional (a limit of -1 will return all results)
+          example: 3
+      responses:
+        '200':
+          description: Success
+  /player-spotlight:
+    get:
+      summary: Get Players
+      description: Retrieve information about players in the "spotlight".
+      responses:
+        '200':
+          description: Success
+  /standings/now:
+    get:
+      summary: Get Standings
+      description: Retrieve the standings as of the current moment.
+      responses:
+        '200':
+          description: Success
+  /standings/{date}:
+    get:
+      summary: Get Standings by Date
+      description: Retrieve the standings for a
+      responses:
+        '200':
+          description: Success
