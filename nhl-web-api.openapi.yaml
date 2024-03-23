@@ -1,192 +1,565 @@
 openapi: 3.0.0
 info:
   title: NHL API
-  description: API documentation for NHL data
+  description: API documentation for retrieving NHL data
   version: 1.0.0
 servers:
   - url: https://api-web.nhle.com/v1/
+components:
+  parameters:
+    player:
+      name: player
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Player ID
+      example: 8478402
+
+    season:
+      name: season
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: |
+        Season in YYYYYYYY format, where the first 
+        four digits represent the start year of the 
+        season, and the last four digits represent 
+        the end year.
+      example: 20232024
+
+    game-type:
+      name: game-type
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: |
+        Game type (2 for regular season, 3 for playoffs)
+
+    categories:
+      name: categories
+      in: query
+      schema:
+        type: string
+      description: Optional
+      example: goals
+
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+      description: |
+        Optional (a limit of -1 will return all results)
+      example: 5
+
+    date:
+      name: date
+      in: path
+      required: true
+      schema:
+        type: string
+        format: date
+      description: Date in YYYY-MM-DD format
+      example: "2023-11-10"
+
+    team:
+      name: team
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Three-letter team code
+
+    month:
+      name: month
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Month in YYYY-MM format
+
+    game-id:
+      name: game-id
+      in: path
+      required: true
+      schema:
+        type: integer
+    country-code:
+      name: country-code
+      in: path
+      required: true
+      schema:
+        type: string
+
 paths:
   /player/{player}/game-log/{season}/{game-type}:
+    parameters:
+      - $ref: "#/components/parameters/player"
+      - $ref: "#/components/parameters/season"
+      - $ref: "#/components/parameters/game-type"
     get:
       summary: Get Game Log
-      description: Retrieve the game log for a specific player, season, and game type.
-      parameters:
-        - name: player
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Player ID
-        - name: season
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Season in YYYYYYYY format
-        - name: game-type
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Game type (2 for regular season, 3 for playoffs)
+      description: |
+        Retrieve the game log for a specific player, 
+        season, and game type.
       responses:
-        '200':
+        "200":
           description: Success
+
   /player/{player}/landing:
+    parameters:
+      - $ref: "#/components/parameters/player"
     get:
       summary: Get Specific Player Info
       description: Retrieve information for a specific player.
-      parameters:
-        - name: player
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Player ID
       responses:
-        '200':
+        "200":
           description: Success
+
   /player/{player}/game-log/now:
+    parameters:
+      - $ref: "#/components/parameters/player"
     get:
       summary: Get Game Log As of Now
-      description: Retrieve the game log for a specific player as of the current moment.
-      parameters:
-        - name: player
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Player ID
-          example: 8478402
+      description: |
+        Retrieve the game log for a specific player as of the current moment.
       responses:
-        '200':
+        "200":
           description: Success
+
   /skater-stats-leaders/current:
     get:
       summary: Get Current Skater Stats Leaders
       description: Retrieve current skater stats leaders.
       parameters:
-        - name: categories
-          in: query
-          schema:
-            type: string
-          description: Optional
-          example: goals
-        - name: limit
-          in: query
-          schema:
-            type: integer
-          description: Optional (a limit of -1 will return all results)
-          example: 5
+        - $ref: "#/components/parameters/categories"
+        - $ref: "#/components/parameters/limit"
       responses:
-        '200':
+        "200":
           description: Success
+
   /skater-stats-leaders/{season}/{game-type}:
+    parameters:
+      - $ref: "#/components/parameters/season"
+      - $ref: "#/components/parameters/game-type"
     get:
       summary: Get Skater Stats Leaders for a Specific Season and Game Type
-      description: Retrieve skater stats leaders for a specific season and game type.
+      description: |
+        Retrieve skater stats leaders for a specific season and game type.
       parameters:
-        - name: season
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Season in YYYYYYYY format
-          example: 20222023
-        - name: game-type
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Game type (2 for regular season, 3 for playoffs)
-          example: 2
-        - name: categories
-          in: query
-          schema:
-            type: string
-          description: Optional
-          example: assists
-        - name: limit
-          in: query
-          schema:
-            type: integer
-          description: Optional (a limit of -1 will return all results)
-          example: 3
+        - $ref: "#/components/parameters/categories"
+        - $ref: "#/components/parameters/limit"
       responses:
-        '200':
+        "200":
           description: Success
+
   /goalie-stats-leaders/current:
     get:
       summary: Get Current Goalie Stats Leaders
       description: Retrieve current goalie stats leaders.
       parameters:
-        - name: categories
-          in: query
-          schema:
-            type: string
-          description: Optional
-          example: wins
-        - name: limit
-          in: query
-          schema:
-            type: integer
-          description: Optional (a limit of -1 will return all results)
-          example: 5
+        - $ref: "#/components/parameters/categories"
+        - $ref: "#/components/parameters/limit"
       responses:
-        '200':
+        "200":
           description: Success
+
   /goalie-stats-leaders/{season}/{game-type}:
+    parameters:
+      - $ref: "#/components/parameters/season"
+      - $ref: "#/components/parameters/game-type"
     get:
       summary: Get Goalie Stats Leaders by Season
-      description: Retrieve goalie stats leaders for a specific season and game type.
+      description: |
+        Retrieve goalie stats leaders for a specific season and game type.
       parameters:
-        - name: season
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Season in YYYYYYYY format
-          example: 20232024
-        - name: game-type
-          in: path
-          required: true
-          schema:
-            type: integer
-          description: Game type (2 for regular season, 3 for playoffs)
-          example: 2
-        - name: categories
-          in: query
-          schema:
-            type: string
-          description: Optional
-          example: wins
-        - name: limit
-          in: query
-          schema:
-            type: integer
-          description: Optional (a limit of -1 will return all results)
-          example: 3
+        - $ref: "#/components/parameters/categories"
+        - $ref: "#/components/parameters/limit"
       responses:
-        '200':
+        "200":
           description: Success
+
   /player-spotlight:
     get:
       summary: Get Players
       description: Retrieve information about players in the "spotlight".
       responses:
-        '200':
+        "200":
           description: Success
+
   /standings/now:
     get:
       summary: Get Standings
       description: Retrieve the standings as of the current moment.
       responses:
-        '200':
+        "200":
           description: Success
+
   /standings/{date}:
     get:
       summary: Get Standings by Date
-      description: Retrieve the standings for a
+      description: Retrieve the standings for a specific date.
+      parameters:
+        - $ref: "#/components/parameters/date"
       responses:
-        '200':
+        "200":
+          description: Success
+
+  /standings-season:
+    get:
+      summary: Get Standings information for each Season
+      description: Retrieves information for each season's standings.
+      responses:
+        "200":
+          description: Success
+
+  /club-stats/{team}/now:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Club Stats Now
+      description: Retrieve current statistics for a specific club.
+      responses:
+        "200":
+          description: Success
+
+  /club-stats-season/{team}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Club Stats for the Season for a Team
+      description: |
+        Returns an overview of the stats for each season for a specific club.
+      responses:
+        "200":
+          description: Success
+
+  /club-stats/{team}/{season}/{game-type}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+      - $ref: "#/components/parameters/season"
+      - $ref: "#/components/parameters/game-type"
+    get:
+      summary: Get Club Stats by Season and Game Type
+      description: |
+        Retrieve the stats for a specific team, season, and game type.
+      responses:
+        "200":
+          description: Success
+
+  /scoreboard/{team}/now:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Team Scoreboard
+      description: |
+        Retrieve the scoreboard for a specific team as of the current moment.
+      responses:
+        "200":
+          description: Success
+
+  /roster/{team}/current:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Team Roster As of Now
+      description: |
+        Retrieve the roster for a specific team as of the current moment.
+      responses:
+        "200":
+          description: Success
+
+  /roster/{team}/{season}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+      - $ref: "#/components/parameters/season"
+    get:
+      summary: Get Team Roster by Season
+      description: Retrieve the roster for a specific team and season.
+      responses:
+        "200":
+          description: Success
+
+  /roster-season/{team}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Roster Season for Team
+      description: |
+        Retrieve a list of all of the seasons that the team played.
+      responses:
+        "200":
+          description: Success
+
+  /prospects/{team}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Team Prospects
+      description: Retrieve prospects for a specific team.
+      responses:
+        "200":
+          description: Success
+
+  /club-schedule-season/{team}/now:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Team Season Schedule As of Now
+      description: |
+        Retrieve the season schedule for a specific team as of the current
+        moment.
+      responses:
+        "200":
+          description: Success
+
+  /club-schedule-season/{team}/{season}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+      - $ref: "#/components/parameters/season"
+    get:
+      summary: Get Team Season Schedule
+      description: Retrieve the season schedule for a specific team and season.
+      responses:
+        "200":
+          description: Success
+
+  /club-schedule/{team}/month/now:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Month Schedule As of Now
+      description: |
+        Retrieve the monthly schedule for a specific team as of the current
+        moment.
+      responses:
+        "200":
+          description: Success
+
+  /club-schedule/{team}/month/{month}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+      - $ref: "#/components/parameters/month"
+    get:
+      summary: Get Month Schedule
+      description: Retrieve the monthly schedule for a specific team and month.
+      responses:
+        "200":
+          description: Success
+
+  /club-schedule/{team}/week/{date}:
+    parameters:
+      - $ref: "#/components/parameters/team"
+      - $ref: "#/components/parameters/date"
+    get:
+      summary: Get Week Schedule
+      description: Retrieve the weekly schedule for a specific team and date.
+      responses:
+        "200":
+          description: Success
+
+  /club-schedule/{team}/week/now:
+    parameters:
+      - $ref: "#/components/parameters/team"
+    get:
+      summary: Get Week Schedule As of Now
+      description: |
+        Retrieve the weekly schedule for a specific team as of the current
+        moment.
+      responses:
+        "200":
+          description: Success
+
+  /schedule/now:
+    get:
+      summary: Get Current Schedule
+      description: Retrieve the current schedule.
+      responses:
+        "200":
+          description: Success
+
+  /schedule/{date}:
+    parameters:
+      - $ref: "#/components/parameters/date"
+    get:
+      summary: Get Schedule by Date
+      description: Retrieve the schedule for a specific date.
+      responses:
+        "200":
+          description: Success
+
+  /schedule-calendar/now:
+    get:
+      summary: Get Schedule Calendar As of Now
+      description: Retrieve the schedule calendar as of the current moment.
+      responses:
+        "200":
+          description: Success
+
+  /schedule-calendar/{date}:
+    parameters:
+      - $ref: "#/components/parameters/date"
+    get:
+      summary: Get Schedule Calendar for a Specific Date
+      description: Retrieve the schedule calendar for a specific date.
+      responses:
+        "200":
+          description: Success
+
+  /daily-scores/now:
+    get:
+      summary: Get Daily Scores As of Now
+      description: Retrieve daily scores as of the current moment.
+      responses:
+        "200":
+          description: Success
+
+  /daily-scores/{date}:
+    parameters:
+      - $ref: "#/components/parameters/date"
+    get:
+      summary: Get Daily Scores by Date
+      description: Retrieve daily scores for a specific date.
+      responses:
+        "200":
+          description: Success
+
+  /scoreboard/now:
+    get:
+      summary: Get Scoreboard
+      description: Retrieve the overall scoreboard as of the current moment.
+      responses:
+        "200":
+          description: Success
+
+  /where-to-watch:
+    get:
+      summary: Get Streams
+      description: Retrieve information about streaming options.
+      parameters:
+        - name: include
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+
+  /gamecenter/{game-id}/play-by-play:
+    parameters:
+      - $ref: "#/components/parameters/game-id"
+    get:
+      summary: Get Play By Play
+      description: Retrieve play-by-play information for a specific game.
+      responses:
+        "200":
+          description: Success
+
+  /gamecenter/{game-id}/landing:
+    parameters:
+      - $ref: "#/components/parameters/game-id"
+    get:
+      summary: Get Landing
+      description: Retrieve landing information for a specific game.
+      responses:
+        "200":
+          description: Success
+
+  /gamecenter/{game-id}/boxscore:
+    parameters:
+      - $ref: "#/components/parameters/game-id"
+    get:
+      summary: Get Boxscore
+      description: Retrieve boxscore information for a specific game.
+      responses:
+        "200":
+          description: Success
+
+  /network/tv-schedule/{date}:
+    parameters:
+      - $ref: "#/components/parameters/date"
+    get:
+      summary: Get TV Schedule for a Specific Date
+      description: Retrieve the TV schedule for a specific date.
+      responses:
+        "200":
+          description: Success
+
+  /network/tv-schedule/now:
+    get:
+      summary: Get Current TV Schedule
+      description: Retrieve the current TV schedule.
+      responses:
+        "200":
+          description: Success
+
+  /partner-game/{country-code}/now:
+    parameters:
+      - $ref: "#/components/parameters/country-code"
+    get:
+      summary: Get Partner Game Odds
+      description: Retrieve odds for games in a specific country as of the current moment.
+      responses:
+        "200":
+          description: Success
+
+  /season:
+    get:
+      summary: Get Seasons
+      description: Retrieve a list of all season IDs past & present in the NHL.
+      responses:
+        "200":
+          description: Success
+
+  /meta:
+    get:
+      summary: Get Meta Information
+      description: Retrieve meta information.
+      parameters:
+        - name: players
+          in: query
+          schema:
+            type: string
+          description: Optional
+        - name: teams
+          in: query
+          schema:
+            type: string
+          description: Optional
+        - name: seasonStates
+          in: query
+          schema:
+            type: string
+          description: Optional (Unsure what the options might be here)
+      responses:
+        "200":
+          description: Success
+
+  /meta/game/{game-id}:
+    parameters:
+      - $ref: "#/components/parameters/game-id"
+    get:
+      summary: Get Game Information
+      description: Retrieve information for a specific game.
+      responses:
+        "200":
+          description: Success
+
+  /location:
+    get:
+      summary: Get Location
+      description: Returns country code tha the webserver thinks the user is in.
+      responses:
+        "200":
+          description: Success
+
+  /model/v1/openapi.json:
+    get:
+      summary: Get OpenAPI Specification
+      description: Retrieve the OpenAPI specification. (Seems to return 404 currently)
+      responses:
+        "200":
           description: Success
