@@ -1,5 +1,7 @@
 # NHL API Utility
 
-Tooling for interacting with the NHL Web API.
+Tools for interacting with the NHL API.
+
+> <https://api-web.nhle.com/v1>
 
 Based on: [NHL API Documentation](https://github.com/Zmalski/NHL-API-Reference).
