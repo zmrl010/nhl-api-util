@@ -1,0 +1,6 @@
+{
+  "cSpell.words": ["gamecenter"],
+  "yaml.schemas": {
+    "openapi:v3": "file:///home/zach/dev/projects/nhl-api-util/nhl-web-api.openapi.yaml"
+  }
+}
