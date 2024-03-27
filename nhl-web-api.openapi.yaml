@@ -1,10 +1,8 @@
 openapi: 3.0.0
 
 info:
-  title: NHL API
-  description: |
-    An unofficial specification of the public-facing API for the
-    National Hockey League (NHL).
+  title: NHL
+  description: This API is used to retrieve data from the NHL.
   version: 1.0.0
 
 servers:
@@ -510,6 +508,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameLogResponse"
 
   /player/{player}/landing:
     parameters:
@@ -731,10 +733,14 @@ paths:
       description: |
         Retrieve the season schedule for a specific team as of the current
         moment.
-      operationId: getTeamSeasonScheduleAsOfNow
+      operationId: getTeamSeasonScheduleNow
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamScheduleResponse"
 
   /club-schedule-season/{team}/{season}:
     parameters:
@@ -747,6 +753,10 @@ paths:
       responses:
         "200":
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamScheduleResponse"
 
   /club-schedule/{team}/month/now:
     parameters:
