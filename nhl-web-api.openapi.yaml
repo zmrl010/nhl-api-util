@@ -1,11 +1,15 @@
 openapi: 3.0.0
+
 info:
   title: NHL API
-  description: NHL's public API
+  description: |
+    An unofficial specification of the public-facing API for the
+    National Hockey League (NHL).
   version: 1.0.0
 
 servers:
   - url: https://api-web.nhle.com/v1
+
 components:
   parameters:
     player:
@@ -752,7 +756,7 @@ paths:
       description: |
         Retrieve the monthly schedule for a specific team as of the current
         moment.
-      operationId: getTeamScheduleForCurrentMonth
+      operationId: getTeamMonthScheduleNow
       responses:
         "200":
           description: Success
@@ -764,7 +768,7 @@ paths:
     get:
       summary: Get Month Schedule
       description: Retrieve the monthly schedule for a specific team and month.
-      operationId: getTeamScheduleForMonth
+      operationId: getTeamMonthSchedule
       responses:
         "200":
           description: Success
@@ -776,7 +780,7 @@ paths:
     get:
       summary: Get Week Schedule
       description: Retrieve the weekly schedule for a specific team and date.
-      operationId: getWeekSchedule
+      operationId: getTeamWeekSchedule
       responses:
         "200":
           description: Success
@@ -789,7 +793,7 @@ paths:
       description: |
         Retrieve the weekly schedule for a specific team as of the current
         moment.
-      operationId: getWeekScheduleAsOfNow
+      operationId: getTeamWeekScheduleNow
       responses:
         "200":
           description: Success
