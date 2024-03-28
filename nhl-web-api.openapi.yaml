@@ -58,6 +58,7 @@ components:
       schema:
         format: int32
         type: integer
+        minimum: 0
       description: |
         Optional (a limit of -1 will return all results)
       example: 5
@@ -493,6 +494,97 @@ components:
         - clubUTCOffset
         - games
 
+    Translation:
+      type: object
+      properties:
+        default:
+          type: string
+        fi:
+          type: string
+        sk:
+          type: string
+        cs:
+          type: string
+        de:
+          type: string
+        sv:
+          type: string
+        fr:
+          type: string
+      required:
+        - default
+      additionalProperties: false
+
+    Player:
+      type: object
+      properties:
+        id:
+          type: integer
+        headshot:
+          type: string
+        firstName:
+          $ref: "#/components/schemas/Translation"
+        lastName:
+          $ref: "#/components/schemas/Translation"
+        sweaterNumber:
+          type: integer
+        positionCode:
+          type: string
+        shootsCatches:
+          type: string
+        heightInInches:
+          type: integer
+        weightInPounds:
+          type: integer
+        heightInCentimeters:
+          type: integer
+        weightInKilograms:
+          type: integer
+        birthDate:
+          type: string
+        birthCity:
+          $ref: "#/components/schemas/Translation"
+        birthCountry:
+          type: string
+        birthStateProvince:
+          $ref: "#/components/schemas/Translation"
+      required:
+        - id
+        - headshot
+        - firstName
+        - lastName
+        - positionCode
+        - shootsCatches
+        - heightInInches
+        - weightInPounds
+        - heightInCentimeters
+        - weightInKilograms
+        - birthDate
+        - birthCity
+        - birthCountry
+        - birthStateProvince
+        - sweaterNumber
+
+    TeamProspects:
+      type: object
+      properties:
+        forwards:
+          type: array
+          items:
+            $ref: "#/components/schemas/Player"
+        defensemen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Player"
+        goalies:
+          type: array
+          items:
+            $ref: "#/components/schemas/Player"
+      additionalProperties: false
+      required:
+        - forwards
+        - defensemen
+        - goalies
 paths:
   /player/{player}/game-log/{season}/{game-type}:
     parameters:
