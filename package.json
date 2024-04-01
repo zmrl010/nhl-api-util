@@ -1,6 +1,7 @@
 {
   "name": "nhl-api",
   "version": "1.0.0",
+  "type": "module",
   "description": "Tools for interacting with the NHL api.",
   "main": "index.js",
   "scripts": {
